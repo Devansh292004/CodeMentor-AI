@@ -17,7 +17,7 @@ export const Navigation = () => {
   ]
 
   return (
-    <nav className="fixed bottom-0 left-0 z-50 w-full border-t border-lv-cream bg-white/95 px-6 pb-8 pt-4 backdrop-blur-xl sm:bottom-8 sm:left-1/2 sm:w-[90%] sm:max-w-md sm:-translate-x-1/2 sm:rounded-full sm:border sm:px-2 sm:pb-4">
+    <nav className="fixed bottom-0 left-0 z-50 w-full border-t border-lv-cream bg-white/95 px-6 pb-6 pt-4 backdrop-blur-xl sm:bottom-8 sm:left-1/2 sm:w-[90%] sm:max-w-md sm:-translate-x-1/2 sm:rounded-full sm:border sm:px-2 sm:pb-4">
       <div className="flex items-center justify-around">
         {navItems.map((item) => {
           const isActive = currentPath === item.path

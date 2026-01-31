@@ -19,6 +19,30 @@ export const getSocraticResponse = (userInput: string, lesson: Lesson): string =
     }
   }
 
+  if (input.includes("pointer") || input.includes("address")) {
+    return "Pointers are fundamental. If the pointer stores the memory address, how do we actually look at the value stored at that address? What's the term for that operation?";
+  }
+
+  if (input.includes("process") || input.includes("thread")) {
+    return "Great focus. If a process crashes, what happens to its threads? And if one thread crashes, what's the impact on the others? Why is that isolation (or lack of it) important?";
+  }
+
+  if (input.includes("sql") || input.includes("join")) {
+    return "Joins are about relationships. If we have two circles in a Venn diagram, which part represents an INNER JOIN? What happens to records that don't have a match?";
+  }
+
+  if (input.includes("neural") || input.includes("network") || input.includes("ml")) {
+    return "Think of a neural network like a committee where everyone has a vote, but some members' votes carry more weight. How does the committee learn which members to trust more over time?";
+  }
+
+  if (input.includes("docker") || input.includes("container")) {
+    return "If a Virtual Machine is like a whole house, how would you describe a Container using the same analogy? Why is it more 'lightweight'?";
+  }
+
+  if (input.includes("recursion")) {
+    return "Recursion is like looking into two mirrors facing each other. But in code, we need to stop at some point. What is that stopping condition called, and what happens if we forget it?";
+  }
+
   const genericSocraticPrompts = [
     "That's an interesting observation. How does it connect to what we just read in the theory section?",
     "If you were explaining this to a five-year-old, how would you describe the next step?",

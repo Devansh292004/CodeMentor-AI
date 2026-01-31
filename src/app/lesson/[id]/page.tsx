@@ -14,5 +14,5 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
 
   if (!lesson) notFound()
 
-  return <LessonEngine lesson={lesson} />
+  return <LessonEngine key={id} lesson={lesson} />
 }

@@ -6,23 +6,50 @@ export const dsaModule: Module = {
   subjectId: "dsa",
   courses: [
     {
+      id: "complexity-analysis",
+      title: "Asymptotic Analysis",
+      description: "Master Big O notation and algorithm efficiency.",
+      lessons: [
+        {
+          id: "big-o-intro",
+          title: "Introduction to Big O",
+          type: "theory",
+          content: "Big O notation describes the complexity of an algorithm as the input size grows.",
+        },
+        {
+          id: "complexity-quiz",
+          title: "Identifying Time Complexity",
+          type: "quiz",
+          content: "Test your ability to recognize different growth rates.",
+          quizOptions: [
+            {
+              question: "What is the time complexity of searching an element in a sorted array using binary search?",
+              options: ["O(1)", "O(n)", "O(log n)", "O(n^2)"],
+              correctIndex: 2,
+              explanation: "Binary search divides the search space in half each time, leading to logarithmic complexity."
+            }
+          ]
+        }
+      ]
+    },
+    {
       id: "arrays-strings",
       title: "Arrays & Strings",
-      description: "The building blocks of data organization.",
+      description: "Fundamental contiguous data structures.",
       lessons: [
         {
           id: "arr-complexity",
-          title: "Time Complexity of Arrays",
-          type: "theory",
-          content: "Understand why array access is O(1) and insertion is O(n).",
+          title: "Array Performance",
+          type: "visualization",
+          content: "Understand why array access is constant time but insertion can be linear.",
           visualizationId: "array-viz",
         },
         {
           id: "two-pointers",
-          title: "The Two-Pointer Technique",
+          title: "Two-Pointer Strategy",
           type: "coding",
-          content: "A common technique for solving array problems efficiently.",
-          codeSnippet: "def reverse_string(s):\n    l, r = 0, len(s) - 1\n    while l < r:\n        s[l], s[r] = s[r], s[l]\n        l += 1\n        r -= 1",
+          content: "A powerful technique for optimizing array problems.",
+          codeSnippet: "def has_pair_with_sum(arr, k):\n    left, right = 0, len(arr) - 1\n    while left < right:\n        s = arr[left] + arr[right]\n        if s == k: return True\n        if s < k: left += 1\n        else: right -= 1\n    return False",
           language: "python",
         }
       ],
@@ -30,28 +57,42 @@ export const dsaModule: Module = {
     {
       id: "linked-lists",
       title: "Linked Lists",
-      description: "Non-contiguous memory allocation.",
+      description: "Dynamic memory allocation patterns.",
       lessons: [
         {
           id: "linked-list-intro",
           title: "Nodes and Pointers",
           type: "visualization",
-          content: "See how nodes point to each other in memory.",
+          content: "See how elements are linked in non-contiguous memory.",
           visualizationId: "linked-list-viz"
+        },
+        {
+          id: "linked-list-impl",
+          title: "Implementing a Node",
+          type: "coding",
+          content: "Define the basic structure of a singly linked list node.",
+          codeSnippet: "class Node:\n    def __init__(self, data):\n        self.data = data\n        self.next = None",
+          language: "python"
         }
       ]
     },
     {
-      id: "trees-graphs",
-      title: "Trees & Graphs",
-      description: "Master hierarchical and networked data structures.",
+      id: "sorting-algorithms",
+      title: "Sorting Algorithms",
+      description: "Efficiently organizing data.",
       lessons: [
         {
-          id: "bfs-dfs",
-          title: "BFS vs DFS",
+          id: "bubble-sort-viz",
+          title: "Bubble Sort",
           type: "visualization",
-          content: "Visualize how different traversal algorithms explore a graph.",
-          visualizationId: "graph-traversal",
+          content: "Visualize the simplest sorting algorithm in action.",
+          visualizationId: "array-viz"
+        },
+        {
+          id: "merge-sort",
+          title: "Merge Sort (Divide & Conquer)",
+          type: "theory",
+          content: "Merge sort is an O(n log n) algorithm that uses recursion to sort subarrays and merge them.",
         }
       ]
     }

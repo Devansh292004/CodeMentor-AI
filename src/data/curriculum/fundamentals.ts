@@ -6,39 +6,72 @@ export const fundamentalsModule: Module = {
   subjectId: "fundamentals",
   courses: [
     {
-      id: "python-basics",
-      title: "Python for Beginners",
-      description: "Master the syntax and core concepts of Python.",
+      id: "python-deep-dive",
+      title: "Python Deep Dive",
+      description: "Master Python from basics to advanced asynchronous patterns.",
       lessons: [
         {
           id: "py-intro",
           title: "Introduction to Variables",
           type: "theory",
-          content: "Variables are used to store information to be referenced and manipulated in a computer program.",
-          codeSnippet: "x = 5\ny = 'Hello World'\nprint(x, y)",
+          content: "Variables are used to store information to be referenced and manipulated in a computer program. In Python, they are dynamically typed.",
+          codeSnippet: "x = 5\ny = 'CodeMentor'\nprint(x, y)",
+        },
+        {
+          id: "py-data-types",
+          title: "Numbers and Strings",
+          type: "coding",
+          content: "Python supports integers, floating-point numbers, and complex numbers. Strings are sequences of characters.",
+          codeSnippet: "price = 19.99\nquantity = 3\ntotal = price * quantity\nprint(f'Total cost: {total}')",
+          language: "python",
+          solution: "Total cost: 59.97"
         },
         {
           id: "py-control-flow",
-          title: "If-Else and Loops",
+          title: "Control Flow & Logic",
           type: "coding",
-          content: "Learn how to control the flow of your program using conditionals and loops.",
-          codeSnippet: "for i in range(5):\n    if i % 2 == 0:\n        print(f'{i} is even')\n    else:\n        print(f'{i} is odd')",
+          content: "Control flow allows you to execute code based on conditions.",
+          codeSnippet: "age = 18\nif age >= 18:\n    print('Adult')\nelse:\n    print('Minor')",
           language: "python",
-          solution: "even odd even odd even",
+          solution: "Adult"
         },
+        {
+          id: "py-functions",
+          title: "Functions and Scope",
+          type: "coding",
+          content: "Functions help modularize code. Python uses indentation to define scope.",
+          codeSnippet: "def greet(name):\n    return f'Hello, {name}!'\n\nprint(greet('Jules'))",
+          language: "python",
+          solution: "Hello, Jules!"
+        },
+        {
+          id: "py-oop",
+          title: "Object Oriented Programming",
+          type: "theory",
+          content: "OOP is a paradigm based on 'objects'. In Python, everything is an object.",
+          codeSnippet: "class Robot:\n    def __init__(self, name):\n        self.name = name\n\nr1 = Robot('Mentor')\nprint(r1.name)",
+        }
       ],
     },
     {
-      id: "cpp-basics",
-      title: "C++ Foundations",
-      description: "Introduction to systems programming with C++.",
+      id: "cpp-mastery",
+      title: "C++ Advanced Systems",
+      description: "Understand low-level memory management and the STL.",
       lessons: [
         {
-          id: "cpp-memory",
-          title: "Memory and Pointers",
+          id: "cpp-pointers",
+          title: "Pointers and Memory",
           type: "theory",
-          content: "Pointers are a fundamental feature of C++ that allow you to work directly with memory addresses.",
-          codeSnippet: "int x = 10;\nint* ptr = &x;\nstd::cout << *ptr << std::endl;",
+          content: "Pointers store the address of another variable. They are essential for systems programming.",
+          codeSnippet: "int val = 10;\nint* ptr = &val;\nstd::cout << *ptr << std::endl;",
+        },
+        {
+          id: "cpp-stl",
+          title: "Standard Template Library",
+          type: "coding",
+          content: "The STL provides a set of template classes for common data structures.",
+          codeSnippet: "#include <vector>\n#include <algorithm>\n\nstd::vector<int> v = {4, 2, 5};\nstd::sort(v.begin(), v.end());",
+          language: "cpp",
         }
       ]
     }
