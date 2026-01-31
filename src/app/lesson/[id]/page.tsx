@@ -14,5 +14,9 @@ export default function LessonPage({ params }: { params: Promise<{ id: string }>
 
   if (!lesson) notFound()
 
-  return <LessonEngine key={id} lesson={lesson} />
+  return (
+    <div className="max-w-2xl mx-auto">
+      <LessonEngine key={id} lesson={lesson} />
+    </div>
+  )
 }
