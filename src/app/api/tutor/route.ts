@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const response = getSocraticResponse(message, lesson)
 
     return NextResponse.json({ response })
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to generate response' }, { status: 500 })
   }
 }

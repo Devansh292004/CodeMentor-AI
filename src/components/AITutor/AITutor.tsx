@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import { X, Send, Bot } from "lucide-react"
 import { Button } from "@/components/ui"
 import { Lesson } from "@/types"
-import { getSocraticResponse } from "@/lib/socraticEngine"
 
 export const AITutor = ({ isOpen, onClose, lessonContext }: {
   isOpen: boolean,
@@ -36,7 +35,7 @@ export const AITutor = ({ isOpen, onClose, lessonContext }: {
           role: 'bot',
           text: data.response
         }]);
-      } catch (error) {
+      } catch {
         setMessages(prev => [...prev, {
           role: 'bot',
           text: "I'm having trouble connecting to my knowledge base. Let's try again in a moment!"
