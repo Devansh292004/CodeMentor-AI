@@ -7,7 +7,7 @@ export default function Home() {
   const { completedLessons } = useStore()
 
   return (
-    <div className="flex flex-col gap-12 py-8">
+    <div className="flex flex-col gap-12 py-8 max-w-2xl mx-auto">
       {curriculum.map((module, mIdx) => (
         <section key={module.id} className="flex flex-col items-center gap-8">
           <div className="relative flex flex-col items-center">
@@ -18,6 +18,7 @@ export default function Home() {
               isCompleted={module.courses.every(c => c.lessons.every(l => completedLessons.includes(l.id)))}
               isLocked={mIdx > 0 && !curriculum[mIdx-1].courses.every(c => c.lessons.every(l => completedLessons.includes(l.id)))}
               delay={mIdx * 0.1}
+              clickable={false}
             />
 
             {/* Connection Line to next module */}

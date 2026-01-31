@@ -152,6 +152,32 @@ export const LessonEngine = ({ lesson }: { lesson: Lesson }) => {
                   {lesson.visualizationId === 'cicd-viz' && <PipelineVisualizer />}
                   {lesson.visualizationId === 'memory-viz' && <MemoryVisualizer />}
                   {lesson.visualizationId === 'mlops-viz' && <MLOpsVisualizer />}
+                  {lesson.visualizationId === 'sql-join-viz' && (
+                    <div className="h-64 flex items-center justify-center bg-lv-cream/20 border-2 border-dashed border-lv-gold/30">
+                      <div className="text-center">
+                        <div className="flex justify-center -space-x-4 mb-4">
+                          <div className="w-20 h-20 rounded-full border-4 border-lv-gold bg-lv-brown/10 backdrop-blur-sm" />
+                          <div className="w-20 h-20 rounded-full border-4 border-lv-gold bg-lv-gold/20 backdrop-blur-sm" />
+                        </div>
+                        <p className="text-[10px] font-black text-lv-gold uppercase tracking-widest">Relational Join Visualizer</p>
+                      </div>
+                    </div>
+                  )}
+                  {lesson.visualizationId === 'eda-plot-viz' && (
+                    <div className="h-64 flex flex-col items-center justify-center bg-lv-cream/20 border-2 border-dashed border-lv-gold/30 gap-4">
+                       <div className="flex items-end gap-1 h-32">
+                          {[40, 70, 45, 90, 65, 80, 50].map((h, i) => (
+                            <motion.div
+                              key={i}
+                              initial={{ height: 0 }}
+                              animate={{ height: `${h}%` }}
+                              className="w-4 bg-lv-gold"
+                            />
+                          ))}
+                       </div>
+                       <p className="text-[10px] font-black text-lv-gold uppercase tracking-widest">Statistical Distribution Active</p>
+                    </div>
+                  )}
                   <p className="text-[10px] text-lv-gold font-black uppercase tracking-widest mt-6 text-center opacity-60">Interactive Visualization Active</p>
                 </div>
               ) : lesson.type === 'coding' ? (

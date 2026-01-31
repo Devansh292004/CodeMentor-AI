@@ -11,15 +11,18 @@ export async function POST(req: Request) {
   try {
     const { message, lesson, history = [] } = await req.json()
 
-    const research = await fetchLatestResearch(lesson.title);
+    const contextTitle = lesson?.title || "General Software Engineering"
+    const contextContent = lesson?.content || "Help the student understand core computer science concepts using the Socratic method."
+
+    const research = await fetchLatestResearch(contextTitle);
     const researchContext = research.map(r => `${r.title}: ${r.summary}`).join("\n");
 
     const systemPrompt = `
       You are CodeMentor, a world-class Socratic software engineering tutor.
       You have access to a vast knowledge base of computer science research and documentation.
 
-      CURRENT LESSON: ${lesson.title}
-      CONTEXT: ${lesson.content}
+      CURRENT LESSON: ${contextTitle}
+      CONTEXT: ${contextContent}
       LATEST RESEARCH: ${researchContext}
 
       PHILOSOPHY:
@@ -68,7 +71,7 @@ export async function POST(req: Request) {
       "Formulating pedagogical prompt..."
     ];
 
-    const fallbackResponse = getSocraticResponse(message, lesson)
+    const fallbackResponse = getSocraticResponse(message, lesson, history)
 
     // Artificial delay to simulate "Thinking"
     await new Promise(r => setTimeout(r, 1500));
