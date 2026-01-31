@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CodeMentor AI
+
+CodeMentor AI is a Duolingo-style, gamified learning platform for Software Engineering. It teaches students how to think through Socratic AI tutoring, interactive visualizations, and bite-sized lessons.
+
+## Features
+
+- **Luxury UI/UX**: Mobile-first, animated, and premium feel using Tailwind CSS v4 and Framer Motion.
+- **Socratic AI Tutor**: An AI-powered companion that guides you through concepts without giving direct answers.
+- **Comprehensive Curriculum**: Covers 10 core subjects including DSA, OS, Databases, Web Dev, and AI/ML.
+- **Interactive Visualizations**: Real-time animations for sorting algorithms, CPU scheduling, and neural networks.
+- **Gamification**: XP, Levels, Streaks, and Skill Trees to keep you motivated.
+- **Full-Stack Persistence**: Local-first state with background synchronization to a Prisma/SQLite backend.
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to set up and run CodeMentor AI on your local machine:
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd CodeMentor-AI
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Environment Setup
+
+Create a `.env` file in the root directory and add your database URL:
+
+```bash
+echo "DATABASE_URL=\"file:./dev.db\"" > .env
+```
+
+### 4. Database Setup
+
+Initialize the SQLite database and generate the Prisma Client:
+
+```bash
+npx prisma migrate dev --name init
+npx prisma generate
+```
+
+### 5. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to start learning!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Frontend**: Next.js 15 (App Router), React 19, Tailwind CSS v4, Framer Motion, Lucide React.
+- **State Management**: Zustand with persistence.
+- **Backend**: Next.js API Routes, Prisma ORM.
+- **Database**: SQLite.
+- **Testing**: Jest.
 
-## Learn More
+## Testing
 
-To learn more about Next.js, take a look at the following resources:
+Run the test suite using:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm test
+```
