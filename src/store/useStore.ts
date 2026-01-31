@@ -7,6 +7,7 @@ interface AppState extends UserProgress {
   completeLesson: (lessonId: string, mistakes: number, timeSpent: number) => void;
   updateStreak: () => void;
   getLessonDifficulty: (lessonId: string) => 'easy' | 'medium' | 'hard';
+  syncWithBackend: () => Promise<void>;
 }
 
 export const useStore = create<AppState>()(
@@ -28,6 +29,7 @@ export const useStore = create<AppState>()(
         const newXP = get().xp + amount;
         const newLevel = Math.floor(newXP / 1000) + 1;
         set({ xp: newXP, level: newLevel });
+        get().syncWithBackend();
       },
 
       completeLesson: (lessonId, mistakes, timeSpent) => {
@@ -48,6 +50,7 @@ export const useStore = create<AppState>()(
 
         // Trigger streak update
         get().updateStreak();
+        get().syncWithBackend();
       },
 
       updateStreak: () => {
@@ -72,6 +75,26 @@ export const useStore = create<AppState>()(
         if (mistakes > 5) return 'easy'; // Give easier version if struggled
         if (mistakes === 0 && get().completedLessons.includes(lessonId)) return 'hard';
         return 'medium';
+      },
+
+      syncWithBackend: async () => {
+        const state = get();
+        try {
+          await fetch('/api/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId: 'default-user',
+              xp: state.xp,
+              streak: state.streak,
+              level: state.level,
+              completedLessons: state.completedLessons,
+              adaptiveMetrics: state.adaptiveMetrics,
+            }),
+          });
+        } catch (error) {
+          console.error('Failed to sync with backend:', error);
+        }
       }
     }),
     {

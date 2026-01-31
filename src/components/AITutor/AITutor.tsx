@@ -22,15 +22,29 @@ export const AITutor = ({ isOpen, onClose, lessonContext }: {
     setMessages(newMessages)
     setInput('')
 
-    // Socratic response logic
-    setTimeout(() => {
-      const response = getSocraticResponse(input, lessonContext);
+    // Socratic response logic via Server API
+    const fetchAIResponse = async () => {
+      try {
+        const res = await fetch('/api/tutor', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: input, lesson: lessonContext }),
+        });
+        const data = await res.json();
 
-      setMessages(prev => [...prev, {
-        role: 'bot',
-        text: response
-      }])
-    }, 1000)
+        setMessages(prev => [...prev, {
+          role: 'bot',
+          text: data.response
+        }]);
+      } catch (error) {
+        setMessages(prev => [...prev, {
+          role: 'bot',
+          text: "I'm having trouble connecting to my knowledge base. Let's try again in a moment!"
+        }]);
+      }
+    };
+
+    fetchAIResponse();
   }
 
   return (
