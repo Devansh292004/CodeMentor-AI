@@ -28,6 +28,20 @@ export const dsaModule: Module = {
       ],
     },
     {
+      id: "linked-lists",
+      title: "Linked Lists",
+      description: "Non-contiguous memory allocation.",
+      lessons: [
+        {
+          id: "linked-list-intro",
+          title: "Nodes and Pointers",
+          type: "visualization",
+          content: "See how nodes point to each other in memory.",
+          visualizationId: "linked-list-viz"
+        }
+      ]
+    },
+    {
       id: "trees-graphs",
       title: "Trees & Graphs",
       description: "Master hierarchical and networked data structures.",

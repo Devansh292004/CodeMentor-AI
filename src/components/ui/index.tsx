@@ -3,23 +3,24 @@ import { motion, HTMLMotionProps } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 interface ButtonProps extends HTMLMotionProps<"button"> {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'outline'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'luxury'
   size?: 'sm' | 'md' | 'lg'
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', ...props }, ref) => {
     const variants = {
-      primary: 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-500/30',
-      secondary: 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-lg shadow-emerald-500/30',
-      outline: 'border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50',
-      ghost: 'text-gray-600 hover:bg-gray-100',
+      primary: 'bg-lv-brown text-lv-cream hover:opacity-90 shadow-xl shadow-lv-brown/10',
+      secondary: 'bg-lv-gold text-lv-brown hover:opacity-90 shadow-xl shadow-lv-gold/20',
+      luxury: 'gold-gradient text-lv-brown font-bold tracking-widest uppercase shadow-2xl shadow-lv-gold/30',
+      outline: 'border-2 border-lv-brown text-lv-brown hover:bg-lv-brown hover:text-lv-cream',
+      ghost: 'text-lv-brown hover:bg-lv-cream',
     }
 
     const sizes = {
-      sm: 'px-3 py-1.5 text-sm',
-      md: 'px-6 py-3 text-base',
-      lg: 'px-8 py-4 text-lg font-bold',
+      sm: 'px-3 py-1.5 text-[10px] uppercase tracking-widest font-bold',
+      md: 'px-6 py-3 text-sm font-bold tracking-wide uppercase',
+      lg: 'px-8 py-4 text-base font-black tracking-widest uppercase',
     }
 
     return (
@@ -28,7 +29,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         className={cn(
-          'inline-flex items-center justify-center rounded-xl font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50',
+          'inline-flex items-center justify-center rounded-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-lv-gold disabled:opacity-50',
           variants[variant],
           sizes[size],
           className
@@ -43,7 +44,7 @@ Button.displayName = "Button"
 export const Card = ({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "rounded-3xl border border-gray-100 bg-white p-6 shadow-xl shadow-gray-200/50",
+      "rounded-sm border border-lv-cream bg-white p-8 luxury-shadow",
       className
     )}
     {...props}
@@ -53,11 +54,20 @@ export const Card = ({ className, children, ...props }: React.HTMLAttributes<HTM
 )
 
 export const ProgressBar = ({ value, max = 100, className }: { value: number, max?: number, className?: string }) => (
-  <div className={cn("h-3 w-full overflow-hidden rounded-full bg-gray-100", className)}>
+  <div className={cn("h-1 w-full overflow-hidden bg-lv-cream", className)}>
     <motion.div
       initial={{ width: 0 }}
       animate={{ width: `${(value / max) * 100}%` }}
-      className="h-full bg-gradient-to-r from-indigo-500 to-purple-500"
+      className="h-full bg-lv-gold"
     />
   </div>
+)
+
+export const LuxuryBadge = ({ children, className }: { children: React.ReactNode, className?: string }) => (
+  <span className={cn(
+    "px-3 py-1 text-[9px] font-black uppercase tracking-[0.2em] border border-lv-gold text-lv-gold rounded-full",
+    className
+  )}>
+    {children}
+  </span>
 )
