@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
 import { motion } from "framer-motion"
-import { Shield, Send, Globe } from "lucide-react"
+import { Shield, Globe } from "lucide-react"
 
 export const NetworkingVisualizer = () => {
   return (

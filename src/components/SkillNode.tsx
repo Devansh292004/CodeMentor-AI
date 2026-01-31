@@ -19,18 +19,19 @@ export const SkillNode = ({ id, title, isLocked, isCompleted, type, delay = 0 }:
 
   return (
     <motion.div
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      initial={{ scale: 0, opacity: 0, rotateY: 90 }}
+      animate={{ scale: 1, opacity: 1, rotateY: 0 }}
+      whileHover={{ y: -5, transition: { duration: 0.2 } }}
       transition={{ delay, type: "spring", stiffness: 260, damping: 20 }}
-      className="flex flex-col items-center gap-4"
+      className="flex flex-col items-center gap-4 perspective-1000"
     >
       <Link
         href={isLocked ? "#" : `/lesson/${id}`}
         className={cn(
-          "group relative flex items-center justify-center transition-all duration-500 luxury-shadow",
+          "group relative flex items-center justify-center transition-all duration-500 luxury-shadow preserve-3d",
           size,
           isLocked ? "bg-lv-cream cursor-not-allowed border border-lv-cream" :
-          isCompleted ? "bg-lv-brown border-2 border-lv-gold" : "bg-white border-2 border-lv-cream hover:border-lv-gold hover:scale-105"
+          isCompleted ? "bg-lv-brown border-2 border-lv-gold shadow-[0_15px_30px_-10px_rgba(197,160,89,0.5)]" : "bg-white border-2 border-lv-cream hover:border-lv-gold hover:scale-105"
         )}
       >
         {isLocked ? (
@@ -51,7 +52,7 @@ export const SkillNode = ({ id, title, isLocked, isCompleted, type, delay = 0 }:
         )}
       </Link>
       <span className={cn(
-        "text-center text-[10px] font-black uppercase tracking-[0.2em] max-w-[120px] leading-relaxed",
+        "text-center text-[10px] font-black uppercase tracking-[0.2em] max-w-[120px] leading-relaxed drop-shadow-sm",
         isLocked ? "text-gray-300" : "text-lv-brown"
       )}>
         {title}

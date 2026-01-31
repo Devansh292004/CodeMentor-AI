@@ -26,18 +26,25 @@ export default function Home() {
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-x-12 gap-y-12 sm:grid-cols-3">
-            {module.courses.flatMap(course => course.lessons).map((lesson, lIdx) => (
-              <SkillNode
-                key={lesson.id}
-                id={lesson.id}
-                title={lesson.title}
-                type="lesson"
-                isCompleted={completedLessons.includes(lesson.id)}
-                isLocked={false} // Simplified for demo
-                delay={(mIdx * 0.2) + (lIdx * 0.05)}
-              />
-            ))}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-3 sm:gap-x-12">
+            {module.courses.flatMap(course => course.lessons).map((lesson, lIdx, allLessons) => {
+              const isFirstLessonOfFirstModule = mIdx === 0 && lIdx === 0;
+              const isLocked = !isFirstLessonOfFirstModule &&
+                             (lIdx > 0 ? !completedLessons.includes(allLessons[lIdx-1].id) :
+                             (mIdx > 0 ? !curriculum[mIdx-1].courses.every(c => c.lessons.every(l => completedLessons.includes(l.id))) : false));
+
+              return (
+                <SkillNode
+                  key={lesson.id}
+                  id={lesson.id}
+                  title={lesson.title}
+                  type="lesson"
+                  isCompleted={completedLessons.includes(lesson.id)}
+                  isLocked={isLocked}
+                  delay={(mIdx * 0.2) + (lIdx * 0.05)}
+                />
+              )
+            })}
           </div>
         </section>
       ))}

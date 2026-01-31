@@ -7,24 +7,47 @@ export const osModule: Module = {
   courses: [
     {
       id: "proc-mgmt",
-      title: "Process Management",
-      description: "How CPUs handle multiple tasks simultaneously.",
+      title: "Process & Thread Management",
+      description: "How the OS executes multiple programs concurrently.",
       lessons: [
         {
           id: "threads-vs-procs",
-          title: "Threads vs Processes",
+          title: "Execution Units",
           type: "theory",
-          content: "A process is a program in execution, while a thread is a unit of execution within a process.",
-          externalResources: [
-            { title: "Modern OS by Tanenbaum", url: "https://en.wikipedia.org/wiki/Modern_Operating_Systems", type: "doc" }
-          ]
+          content: "Processes are independent execution environments. Threads share the same address space.",
         },
         {
           id: "scheduling-viz",
-          title: "CPU Scheduling Algorithms",
+          title: "CPU Scheduling",
           type: "visualization",
-          content: "See how Round Robin differs from First-Come, First-Served.",
+          content: "See how the OS decides which process runs next.",
           visualizationId: "cpu-scheduler"
+        },
+        {
+          id: "deadlocks-intro",
+          title: "The Deadlock Problem",
+          type: "theory",
+          content: "Deadlocks occur when processes are waiting for resources held by each other.",
+        }
+      ]
+    },
+    {
+      id: "memory-mgmt",
+      title: "Memory Architecture",
+      description: "Managing the hierarchy from registers to disk.",
+      lessons: [
+        {
+          id: "virtual-memory",
+          title: "Virtual Memory & Paging",
+          type: "theory",
+          content: "Virtual memory allows processes to use more memory than physically available by swapping with disk.",
+        },
+        {
+          id: "stack-heap-viz",
+          title: "Stack vs Heap",
+          type: "visualization",
+          content: "See how the stack handles local variables while the heap manages dynamic memory.",
+          visualizationId: "memory-viz"
         }
       ]
     }

@@ -23,6 +23,12 @@ export const sePrinciplesModule: Module = {
           title: "The Factory Method",
           type: "theory",
           content: "Understand how to delegate object instantiation to subclasses.",
+        },
+        {
+          id: "observer-pattern",
+          title: "The Observer Pattern",
+          type: "theory",
+          content: "Define a one-to-many dependency between objects so that when one object changes state, all its dependents are notified."
         }
       ]
     },
@@ -44,6 +50,27 @@ export const sePrinciplesModule: Module = {
               explanation: "The Daily Stand-up is for team synchronization and identifying blockers."
             }
           ]
+        }
+      ]
+    },
+    {
+      id: "testing-foundations",
+      title: "Testing Strategies",
+      description: "Unit, Integration, and E2E testing.",
+      lessons: [
+        {
+          id: "tdd-cycle",
+          title: "The TDD Cycle",
+          type: "theory",
+          content: "Red -> Green -> Refactor. Write the test first, then the minimum code to pass it."
+        },
+        {
+          id: "mocking-lesson",
+          title: "Mocking and Stubbing",
+          type: "coding",
+          content: "Isolate units of code by replacing dependencies with controlled doubles.",
+          codeSnippet: "mock_api = Mock()\nmock_api.get.return_value = {'status': 200}",
+          language: "python"
         }
       ]
     }

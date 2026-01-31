@@ -3,7 +3,12 @@ import { prisma } from '@/lib/prisma'
 
 export async function POST(req: Request) {
   try {
-    const { userId, xp, streak, level, completedLessons, adaptiveMetrics } = await req.json()
+    const body = await req.json()
+    const { userId, xp, streak, level, completedLessons, adaptiveMetrics } = body
+
+    if (!userId) {
+       return NextResponse.json({ success: false, error: 'User ID is required' }, { status: 400 })
+    }
 
     // Update user stats
     const user = await prisma.user.upsert({
@@ -17,22 +22,23 @@ export async function POST(req: Request) {
       },
     })
 
-    // Update progress for each lesson
-    // For simplicity, we just sync what we got
-    for (const lessonId of completedLessons) {
-      await prisma.progress.upsert({
-        where: { userId_lessonId: { userId: user.id, lessonId } },
-        update: {
-          mistakes: adaptiveMetrics.mistakesPerLesson[lessonId] || 0,
-          timeSpent: adaptiveMetrics.timeSpentPerLesson[lessonId] || 0,
-        },
-        create: {
-          userId: user.id,
-          lessonId,
-          mistakes: adaptiveMetrics.mistakesPerLesson[lessonId] || 0,
-          timeSpent: adaptiveMetrics.timeSpentPerLesson[lessonId] || 0,
-        },
-      })
+    // Batch update progress for each lesson
+    if (completedLessons && Array.isArray(completedLessons)) {
+      await Promise.all(completedLessons.map(lessonId =>
+        prisma.progress.upsert({
+          where: { userId_lessonId: { userId: user.id, lessonId } },
+          update: {
+            mistakes: adaptiveMetrics?.mistakesPerLesson?.[lessonId] || 0,
+            timeSpent: adaptiveMetrics?.timeSpentPerLesson?.[lessonId] || 0,
+          },
+          create: {
+            userId: user.id,
+            lessonId,
+            mistakes: adaptiveMetrics?.mistakesPerLesson?.[lessonId] || 0,
+            timeSpent: adaptiveMetrics?.timeSpentPerLesson?.[lessonId] || 0,
+          },
+        })
+      ))
     }
 
     return NextResponse.json({ success: true, user })
@@ -43,13 +49,21 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url)
-  const userId = searchParams.get('userId') || 'default-user'
+  try {
+    const { searchParams } = new URL(req.url)
+    const userId = searchParams.get('userId') || 'default-user'
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    include: { progress: true }
-  })
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { progress: true }
+    })
 
-  return NextResponse.json(user)
+    if (!user) {
+      return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 })
+    }
+
+    return NextResponse.json({ success: true, user })
+  } catch {
+    return NextResponse.json({ success: false, error: 'Failed to fetch progress' }, { status: 500 })
+  }
 }
