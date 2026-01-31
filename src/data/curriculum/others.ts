@@ -6,24 +6,23 @@ export const databasesModule: Module = {
   subjectId: "databases",
   courses: [
     {
-      id: "sql-intro",
-      title: "SQL Fundamentals",
-      description: "Learn how to query and manage data with SQL.",
+      id: "sql-mastery",
+      title: "SQL & Query Optimization",
+      description: "Master relational data management.",
       lessons: [
         {
-          id: "sql-select",
-          title: "The SELECT Statement",
+          id: "sql-joins",
+          title: "Complex Joins",
           type: "coding",
-          content: "SELECT is used to retrieve data from a database.",
-          codeSnippet: "SELECT * FROM users WHERE age > 21;",
-          language: "sql",
+          content: "Learn to combine data from multiple tables using INNER, LEFT, and RIGHT joins.",
+          codeSnippet: "SELECT orders.id, users.name\nFROM orders\nINNER JOIN users ON orders.user_id = users.id;",
+          language: "sql"
         },
         {
-          id: "sql-joins",
-          title: "Understanding Joins",
-          type: "visualization",
-          content: "Visualize how INNER, LEFT, and RIGHT joins combine tables.",
-          visualizationId: "sql-join-viz",
+          id: "indexing-concept",
+          title: "Database Indexing",
+          type: "theory",
+          content: "Indexes are used to quickly locate data without having to search every row in a database table every time a database table is accessed."
         }
       ]
     }
@@ -36,17 +35,17 @@ export const webDevModule: Module = {
   subjectId: "web_dev",
   courses: [
     {
-      id: "react-basics",
-      title: "React Hooks",
-      description: "Master useState and useEffect.",
+      id: "frontend-mastery",
+      title: "React & Next.js",
+      description: "Build modern web applications.",
       lessons: [
         {
-          id: "use-state",
-          title: "useState Hook",
+          id: "react-hooks",
+          title: "Advanced Hooks",
           type: "coding",
-          content: "Manage state in functional components.",
-          codeSnippet: "const [count, setCount] = useState(0);",
-          language: "javascript",
+          content: "Understand useMemo and useCallback for performance optimization.",
+          codeSnippet: "const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);",
+          language: "javascript"
         }
       ]
     }
@@ -59,16 +58,16 @@ export const mlAiModule: Module = {
   subjectId: "ml_ai",
   courses: [
     {
-      id: "neural-nets",
-      title: "Neural Networks",
-      description: "Intro to deep learning.",
+      id: "neural-networks",
+      title: "Deep Learning Foundations",
+      description: "The math and logic behind AI.",
       lessons: [
         {
-          id: "perceptron",
+          id: "perceptron-lesson",
           title: "The Perceptron",
-          type: "theory",
-          content: "The building block of neural networks.",
-          visualizationId: "perceptron-viz",
+          type: "visualization",
+          content: "Visualize how a single neuron processes information.",
+          visualizationId: "perceptron-viz"
         }
       ]
     }

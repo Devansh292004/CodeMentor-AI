@@ -10,6 +10,8 @@ import { AITutor } from "@/components/AITutor/AITutor"
 import { AlgorithmVisualizer } from "@/components/Visualizations/AlgorithmVisualizer"
 import { OSVisualizer } from "@/components/Visualizations/OSVisualizer"
 import { NNVisualizer } from "@/components/Visualizations/NNVisualizer"
+import { LinkedListVisualizer } from "@/components/Visualizations/LinkedListVisualizer"
+import { NetworkingVisualizer } from "@/components/Visualizations/NetworkingVisualizer"
 
 export const LessonEngine = ({ lesson }: { lesson: Lesson }) => {
   const [step, setStep] = useState(0) // 0: Theory, 1: Practice/Quiz, 2: Reflection
@@ -19,6 +21,28 @@ export const LessonEngine = ({ lesson }: { lesson: Lesson }) => {
   const { completeLesson, getLessonDifficulty } = useStore()
   const difficulty = getLessonDifficulty(lesson.id)
   const router = useRouter()
+
+  // Adaptive content modification
+  const getAdaptivePractice = () => {
+    if (difficulty === 'easy') {
+      return {
+        prompt: "Let's start simple. Fill in the missing piece below.",
+        snippet: lesson.codeSnippet?.replace(/=/g, " ___ ") || lesson.codeSnippet
+      }
+    }
+    if (difficulty === 'hard') {
+      return {
+        prompt: "Expert challenge: Rewrite this logic from scratch for maximum efficiency.",
+        snippet: ""
+      }
+    }
+    return {
+      prompt: "Fix the code below to produce the expected output.",
+      snippet: lesson.codeSnippet
+    }
+  }
+
+  const adaptivePractice = getAdaptivePractice()
 
   const handleNext = () => {
     if (step < 2) {
@@ -77,16 +101,18 @@ export const LessonEngine = ({ lesson }: { lesson: Lesson }) => {
                   {lesson.visualizationId === 'array-viz' && <AlgorithmVisualizer />}
                   {lesson.visualizationId === 'cpu-scheduler' && <OSVisualizer />}
                   {lesson.visualizationId === 'perceptron-viz' && <NNVisualizer />}
-                  <p className="text-sm text-gray-500 italic mt-4 text-center">Interact with the visualization to see the concept in action.</p>
+                  {lesson.visualizationId === 'linked-list-viz' && <LinkedListVisualizer />}
+                  {lesson.visualizationId === 'tcp-stack-viz' && <NetworkingVisualizer />}
+                  <p className="text-[10px] text-lv-gold font-black uppercase tracking-widest mt-6 text-center opacity-60">Interactive Visualization Active</p>
                 </div>
               ) : lesson.type === 'coding' ? (
                 <div className="flex flex-col gap-4">
-                  <p className="text-gray-600">Fix the code below to produce the expected output.</p>
-                  <div className="rounded-2xl bg-slate-900 p-6 font-mono text-sm text-emerald-400">
+                  <p className="text-gray-600 font-medium italic">{adaptivePractice.prompt}</p>
+                  <div className="rounded-none bg-lv-dark p-8 font-mono text-sm text-lv-gold luxury-shadow">
                     <textarea
-                      className="w-full bg-transparent outline-none resize-none"
-                      rows={5}
-                      defaultValue={lesson.codeSnippet}
+                      className="w-full bg-transparent outline-none resize-none border-l border-lv-gold/30 pl-4"
+                      rows={8}
+                      defaultValue={adaptivePractice.snippet}
                     />
                   </div>
                 </div>

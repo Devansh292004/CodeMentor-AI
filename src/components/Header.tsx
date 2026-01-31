@@ -7,26 +7,26 @@ export const Header = () => {
   const { xp, streak, level } = useStore()
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-100 bg-white/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-2xl items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
-            <Star size={20} fill="currentColor" />
+    <header className="sticky top-0 z-50 border-b border-lv-cream bg-white/80 backdrop-blur-md">
+      <div className="mx-auto flex max-w-2xl items-center justify-between px-6 py-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-none bg-lv-brown text-lv-gold luxury-shadow">
+            <Star size={24} fill="currentColor" stroke="none" />
           </div>
           <div>
-            <h1 className="text-sm font-bold text-gray-900">CodeMentor AI</h1>
-            <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Level {level}</p>
+            <h1 className="text-sm font-black uppercase tracking-[0.2em] text-lv-brown">CodeMentor</h1>
+            <p className="text-[10px] font-bold text-lv-gold uppercase tracking-widest">Master Level {level}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1.5 rounded-full bg-orange-50 px-3 py-1.5 text-orange-600">
-            <Flame size={18} fill="currentColor" />
-            <span className="text-sm font-bold">{streak}</span>
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-1.5 text-lv-brown opacity-80">
+            <Flame size={18} fill="currentColor" stroke="none" />
+            <span className="text-xs font-black tracking-widest">{streak}</span>
           </div>
-          <div className="flex items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1.5 text-indigo-600">
+          <div className="flex items-center gap-1.5 text-lv-gold">
             <Trophy size={18} />
-            <span className="text-sm font-bold">{xp}</span>
+            <span className="text-xs font-black tracking-widest">{xp}</span>
           </div>
         </div>
       </div>

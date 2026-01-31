@@ -22,37 +22,37 @@ export const SkillNode = ({ id, title, isLocked, isCompleted, type, delay = 0 }:
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay, type: "spring", stiffness: 260, damping: 20 }}
-      className="flex flex-col items-center gap-3"
+      className="flex flex-col items-center gap-4"
     >
       <Link
         href={isLocked ? "#" : `/lesson/${id}`}
         className={cn(
-          "group relative flex items-center justify-center rounded-full transition-all duration-300",
+          "group relative flex items-center justify-center transition-all duration-500 luxury-shadow",
           size,
-          isLocked ? "bg-gray-200 cursor-not-allowed" :
-          isCompleted ? "bg-emerald-500 shadow-lg shadow-emerald-200" : "bg-indigo-600 shadow-lg shadow-indigo-200 hover:scale-110"
+          isLocked ? "bg-lv-cream cursor-not-allowed border border-lv-cream" :
+          isCompleted ? "bg-lv-brown border-2 border-lv-gold" : "bg-white border-2 border-lv-cream hover:border-lv-gold hover:scale-105"
         )}
       >
         {isLocked ? (
-          <Lock className="text-gray-400" size={type === 'module' ? 32 : 20} />
+          <Lock className="text-gray-300" size={type === 'module' ? 32 : 18} />
         ) : isCompleted ? (
-          <Check className="text-white" size={type === 'module' ? 40 : 24} strokeWidth={3} />
+          <Check className="text-lv-gold" size={type === 'module' ? 36 : 22} strokeWidth={3} />
         ) : (
-          <Play className="text-white ml-1" fill="white" size={type === 'module' ? 32 : 20} />
+          <Play className="text-lv-brown group-hover:text-lv-gold ml-1 transition-colors" fill="currentColor" size={type === 'module' ? 32 : 18} />
         )}
 
-        {/* Outer Ring for Active Node */}
+        {/* Decorative Ring for Active Node */}
         {!isLocked && !isCompleted && (
           <motion.div
-            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="absolute inset-0 rounded-full border-4 border-indigo-400"
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+            className="absolute -inset-2 border border-lv-gold/30 rounded-full border-dashed"
           />
         )}
       </Link>
       <span className={cn(
-        "text-center text-xs font-bold uppercase tracking-wide max-w-[100px]",
-        isLocked ? "text-gray-400" : "text-gray-700"
+        "text-center text-[10px] font-black uppercase tracking-[0.2em] max-w-[120px] leading-relaxed",
+        isLocked ? "text-gray-300" : "text-lv-brown"
       )}>
         {title}
       </span>
