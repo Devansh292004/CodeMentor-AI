@@ -1,101 +1,149 @@
 "use client"
-import React, { useState, useCallback } from "react"
-import { getAllLessons } from "@/data/curriculum"
-import { Button, Card, LuxuryBadge } from "@/components/ui"
-import { Target, Zap, Trophy, ArrowRight, RefreshCcw } from "lucide-react"
-import Link from "next/link"
+import React, { useState } from "react"
+import { practiceQuestions } from "@/data/practice_questions"
+import { Button, Card, LuxuryBadge, ProgressBar, XPParticle } from "@/components/ui"
+import { Target, Zap, ArrowRight, CheckCircle2, XCircle } from "lucide-react"
+import { useStore } from "@/store/useStore"
 import { motion, AnimatePresence } from "framer-motion"
-import { Lesson } from "@/types"
+import { cn } from "@/lib/utils"
 
 export default function Practice() {
-  const [randomLesson, setRandomLesson] = useState<Lesson>(() => {
-    const all = getAllLessons()
-    return all[Math.floor(Math.random() * all.length)]
-  })
+  const [currentIdx, setCurrentIdx] = useState(0)
+  const [selectedOpt, setSelectedOpt] = useState<number | null>(null)
+  const [userCode, setUserCode] = useState("")
+  const [showResult, setShowResult] = useState(false)
+  const [isCorrect, setIsCorrect] = useState(false)
+  const [particles, setParticles] = useState<{ id: number, x: number, y: number }[]>([])
+  const { addXP } = useStore()
 
-  const pickRandom = useCallback(() => {
-    const all = getAllLessons()
-    const random = all[Math.floor(Math.random() * all.length)]
-    setRandomLesson(random)
-  }, [])
+  const question = practiceQuestions[currentIdx]
+
+  const handleCheck = () => {
+    let correct = false
+    if (question.type === 'multiple-choice') {
+      correct = selectedOpt === question.correctIndex
+    } else {
+      correct = userCode.includes(question.solution || "")
+    }
+
+    setIsCorrect(correct)
+    setShowResult(true)
+    if (correct) {
+      const gain = 50
+      addXP(gain)
+      setParticles([{ id: Date.now(), x: window.innerWidth / 2, y: window.innerHeight / 2 }])
+    }
+  }
+
+  const handleNext = () => {
+    setCurrentIdx((prev) => (prev + 1) % practiceQuestions.length)
+    setSelectedOpt(null)
+    setUserCode(question.initialCode || "")
+    setShowResult(false)
+    setIsCorrect(false)
+  }
 
   return (
     <div className="flex flex-col gap-8 py-8 max-w-2xl mx-auto px-4">
       <div className="flex flex-col items-center text-center gap-4">
-        <div className="h-20 w-20 rounded-none bg-lv-gold flex items-center justify-center text-lv-brown shadow-2xl">
+        <div className="h-20 w-20 rounded-none bg-lv-brown flex items-center justify-center text-lv-gold shadow-2xl">
           <Target size={40} />
         </div>
         <div>
-          <h1 className="text-3xl font-black text-lv-brown uppercase tracking-widest">Practice Lab</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px] mt-2">Sharpen your skills with randomized challenges</p>
+          <h1 className="text-3xl font-black text-lv-brown uppercase tracking-widest">Mastery Lab</h1>
+          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px] mt-2">Question {currentIdx + 1} of {practiceQuestions.length}</p>
         </div>
       </div>
 
+      <ProgressBar value={((currentIdx + 1) / practiceQuestions.length) * 100} />
+
       <AnimatePresence mode="wait">
-        {randomLesson && (
-          <motion.div
-            key={randomLesson.id}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-          >
-            <Card className="p-10 flex flex-col gap-8 border-2 border-lv-gold/20 bg-white luxury-shadow relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Zap size={120} className="text-lv-gold" />
+        <motion.div
+          key={currentIdx}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+        >
+          <Card className="p-8 flex flex-col gap-6 border border-lv-cream bg-white luxury-shadow">
+            <div className="flex items-center justify-between">
+              <LuxuryBadge>{question.topic}</LuxuryBadge>
+              <div className="flex items-center gap-1 text-lv-gold">
+                <Zap size={14} fill="currentColor" />
+                <span className="text-[10px] font-black uppercase">50 XP</span>
               </div>
+            </div>
 
-              <div className="flex items-center gap-3">
-                <LuxuryBadge>Daily Challenge</LuxuryBadge>
-                <span className="text-[10px] font-black text-lv-gold uppercase tracking-widest">Earn 2x XP</span>
-              </div>
+            <h2 className="text-xl font-bold text-lv-brown leading-tight">{question.question}</h2>
 
-              <div>
-                <h2 className="text-2xl font-black text-lv-brown uppercase tracking-tight mb-2">{randomLesson.title}</h2>
-                <p className="text-gray-500 text-sm font-medium leading-relaxed italic">
-                  {randomLesson.content.substring(0, 120)}...
-                </p>
+            {question.type === 'multiple-choice' ? (
+              <div className="flex flex-col gap-3">
+                {question.options?.map((opt, i) => (
+                  <button
+                    key={i}
+                    onClick={() => !showResult && setSelectedOpt(i)}
+                    className={cn(
+                      "w-full p-4 text-left border-2 transition-all font-bold uppercase text-[10px] tracking-widest",
+                      selectedOpt === i ? "border-lv-brown bg-lv-cream/20" : "border-lv-cream",
+                      showResult && i === question.correctIndex ? "bg-emerald-50 border-emerald-500 text-emerald-700" :
+                      showResult && selectedOpt === i && i !== question.correctIndex ? "bg-red-50 border-red-500 text-red-700" : ""
+                    )}
+                  >
+                    {opt}
+                  </button>
+                ))}
               </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                <div className="bg-lv-dark p-6 rounded-none luxury-shadow font-mono text-xs">
+                  <textarea
+                    className="w-full bg-transparent text-lv-gold outline-none resize-none border-l border-lv-gold/30 pl-4"
+                    rows={6}
+                    value={userCode}
+                    onChange={(e) => setUserCode(e.target.value)}
+                    disabled={showResult}
+                    placeholder="# Write your solution here..."
+                  />
+                </div>
+              </div>
+            )}
 
-              <div className="flex items-center gap-6 border-t border-lv-cream pt-8">
-                 <div className="flex flex-col">
-                    <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Subject</span>
-                    <span className="text-xs font-bold text-lv-brown uppercase">Computing Systems</span>
-                 </div>
-                 <div className="flex flex-col">
-                    <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Reward</span>
-                    <div className="flex items-center gap-1 text-lv-gold">
-                       <Trophy size={12} />
-                       <span className="text-xs font-bold uppercase">100 XP</span>
-                    </div>
-                 </div>
-              </div>
+            {showResult && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={cn(
+                  "p-4 flex flex-col gap-2",
+                  isCorrect ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700"
+                )}
+              >
+                <div className="flex items-center gap-2">
+                  {isCorrect ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
+                  <span className="font-black uppercase tracking-widest text-xs">{isCorrect ? "Immaculate!" : "Not Quite"}</span>
+                </div>
+                <p className="text-[10px] font-medium leading-relaxed">{question.explanation}</p>
+              </motion.div>
+            )}
 
-              <div className="flex gap-4 mt-4">
-                <Link href={`/lesson/${randomLesson.id}`} className="flex-1">
-                  <Button className="w-full gap-2 h-14">
-                    Start Challenge
-                    <ArrowRight size={18} />
-                  </Button>
-                </Link>
-                <Button variant="outline" onClick={pickRandom} className="h-14 px-6">
-                  <RefreshCcw size={20} />
-                </Button>
-              </div>
-            </Card>
-          </motion.div>
-        )}
+            {!showResult ? (
+              <Button
+                onClick={handleCheck}
+                disabled={question.type === 'multiple-choice' ? selectedOpt === null : !userCode.trim()}
+                className="h-14"
+              >
+                Check Answer
+              </Button>
+            ) : (
+              <Button onClick={handleNext} className="h-14 gap-2">
+                Continue <ArrowRight size={18} />
+              </Button>
+            )}
+          </Card>
+        </motion.div>
       </AnimatePresence>
 
-      <div className="grid grid-cols-2 gap-4">
-         <div className="p-6 bg-lv-brown text-lv-cream flex flex-col gap-2">
-            <span className="text-[9px] font-black text-lv-gold uppercase tracking-widest">Global Rank</span>
-            <span className="text-xl font-black italic">#1,242</span>
-         </div>
-         <div className="p-6 bg-lv-cream text-lv-brown border border-lv-gold/30 flex flex-col gap-2">
-            <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Accuracy</span>
-            <span className="text-xl font-black italic">94.2%</span>
-         </div>
-      </div>
+      {particles.map(p => (
+        <XPParticle key={p.id} x={p.x} y={p.y} />
+      ))}
     </div>
   )
 }
