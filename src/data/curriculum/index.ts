@@ -1,4 +1,5 @@
 import { Module } from "../../types";
+import { expandedCurriculum } from "./expanded_lessons";
 import { fundamentalsModule } from "./fundamentals";
 import { dsaModule } from "./dsa";
 import { osModule } from "./os";
@@ -7,7 +8,9 @@ import { sePrinciplesModule } from "./se_principles";
 import { webDevModule, devopsModule } from "./web_devops";
 import { advancedModule } from "./advanced";
 
+// Merge expanded curriculum with existing modules for a truly massive knowledge base
 export const curriculum: Module[] = [
+  ...expandedCurriculum,
   fundamentalsModule,
   dsaModule,
   osModule,
