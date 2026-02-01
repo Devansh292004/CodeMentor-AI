@@ -2,6 +2,7 @@
 import React from "react"
 import { Navigation } from "./Navigation"
 import { Header } from "./Header"
+import { LevelUpModal } from "./ui/LevelUpModal"
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -11,6 +12,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         {children}
       </main>
       <Navigation />
+      <LevelUpModal />
     </div>
   )
 }

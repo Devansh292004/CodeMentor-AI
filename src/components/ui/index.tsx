@@ -43,16 +43,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button"
 
 export const Card = ({ className, children }: { className?: string, children: React.ReactNode }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
+  <div
     className={cn(
       "rounded-sm border border-lv-cream bg-white p-8 luxury-shadow",
       className
     )}
   >
     {children}
-  </motion.div>
+  </div>
 )
 
 export const GlassCard = ({ className, children }: { className?: string, children: React.ReactNode }) => (

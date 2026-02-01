@@ -1,23 +1,20 @@
 @import "tailwindcss";
 
+@theme {
+  --color-background: #faf7f2;
+  --color-foreground: #1a1412;
+  --color-lv-brown: #2d1e17;
+  --color-lv-gold: #c5a059;
+  --color-lv-cream: #f4eade;
+  --color-lv-dark: #1a1412;
+
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
 :root {
   --background: #faf7f2;
   --foreground: #1a1412;
-  --lv-brown: #2d1e17;
-  --lv-gold: #c5a059;
-  --lv-cream: #f4eade;
-  --lv-dark: #1a1412;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-lv-brown: var(--lv-brown);
-  --color-lv-gold: var(--lv-gold);
-  --color-lv-cream: var(--lv-cream);
-  --color-lv-dark: var(--lv-dark);
-  --font-serif: "Playfair Display", serif;
-  --font-sans: "Inter", sans-serif;
 }
 
 body {
@@ -40,4 +37,15 @@ h1, h2, h3, .font-lv {
 
 .brown-gradient {
   background: linear-gradient(135deg, #2d1e17 0%, #1a1412 100%);
+}
+
+/* Custom Scrollbar for Luxury Feel */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f4eade;
+}
+::-webkit-scrollbar-thumb {
+  background: #c5a059;
 }
