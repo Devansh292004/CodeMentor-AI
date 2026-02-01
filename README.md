@@ -26,8 +26,8 @@ DATABASE_URL="file:./dev.db"
 OPENAI_API_KEY="your_key_here"
 ```
 
-### 3. Initialize the Database
-Set up your local SQLite database and generate the Prisma client:
+### 3. Initialize the Database (Prisma v7+)
+Set up your local SQLite database and generate the Prisma client. Note that Prisma v7 uses `prisma.config.ts` for database configuration:
 ```bash
 npx prisma migrate dev --name init
 npx prisma generate
