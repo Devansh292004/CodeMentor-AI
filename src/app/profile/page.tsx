@@ -1,13 +1,45 @@
 "use client"
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { useStore } from "@/store/useStore"
 import { Card } from "@/components/ui"
-import { User, Trophy, Flame, Star, BookOpen, ShieldCheck, Target, TrendingUp, Award, Zap } from "lucide-react"
+import { User, Trophy, Flame, Star, BookOpen, ShieldCheck, Target, TrendingUp, Award, Zap, Edit2, Check, X, Loader2 } from "lucide-react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 export default function Profile() {
   const { xp, streak, level, completedLessons, adaptiveMetrics } = useStore()
+  const [isEditing, setIsEditing] = useState(false)
+  const [name, setName] = useState("Elite Developer")
+  const [email, setEmail] = useState("senior@codementor.ai")
+  const [isSaving, setIsSaving] = useState(false)
+
+  // Load real user data if available
+  useEffect(() => {
+    const fetchUser = async () => {
+       try {
+          const res = await fetch('/api/sync?userId=default-user')
+          const data = await res.json()
+          if (data.success && data.user) {
+             setName(data.user.name || "Elite Developer")
+             setEmail(data.user.email || "senior@codementor.ai")
+          }
+       } catch (e) { console.error(e) }
+    }
+    fetchUser()
+  }, [])
+
+  const handleSave = async () => {
+     setIsSaving(true)
+     try {
+        const res = await fetch('/api/user/update', {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify({ userId: 'default-user', name, email })
+        })
+        if (res.ok) setIsEditing(false)
+     } catch (e) { console.error(e) }
+     finally { setIsSaving(false) }
+  }
 
   const totalMistakes = Object.values(adaptiveMetrics.mistakesPerLesson).reduce((a, b) => a + b, 0)
   const totalTime = Object.values(adaptiveMetrics.timeSpentPerLesson).reduce((a, b) => a + b, 0)
@@ -37,9 +69,36 @@ export default function Profile() {
 
         <div className="flex-1 text-center md:text-left space-y-4">
           <div className="flex flex-col md:flex-row md:items-center gap-4">
-            <h1 className="text-4xl font-black text-lv-brown uppercase tracking-tighter">Elite Developer</h1>
-            <div className="flex justify-center md:justify-start">
+            {isEditing ? (
+              <div className="flex flex-col gap-2 flex-1">
+                <input
+                   value={name}
+                   onChange={e => setName(e.target.value)}
+                   className="text-4xl font-black text-lv-brown uppercase tracking-tighter bg-lv-cream/20 border-b-2 border-lv-gold outline-none px-2"
+                />
+                <input
+                   value={email}
+                   onChange={e => setEmail(e.target.value)}
+                   className="text-sm font-bold text-gray-400 bg-transparent border-b border-lv-cream outline-none px-2"
+                />
+              </div>
+            ) : (
+              <h1 className="text-4xl font-black text-lv-brown uppercase tracking-tighter">{name}</h1>
+            )}
+            <div className="flex items-center justify-center md:justify-start gap-2">
               <span className="px-4 py-1 bg-lv-brown text-lv-gold text-[10px] font-black uppercase tracking-widest">Master Level {level}</span>
+              <button
+                onClick={() => isEditing ? handleSave() : setIsEditing(true)}
+                disabled={isSaving}
+                className="p-2 hover:bg-lv-cream transition-colors rounded-full text-lv-brown"
+              >
+                {isSaving ? <Loader2 size={16} className="animate-spin" /> : isEditing ? <Check size={16} /> : <Edit2 size={16} />}
+              </button>
+              {isEditing && (
+                <button onClick={() => setIsEditing(false)} className="p-2 hover:bg-red-50 text-red-500 rounded-full">
+                  <X size={16} />
+                </button>
+              )}
             </div>
           </div>
           <p className="text-gray-400 font-serif italic text-lg">&quot;The only way to go fast is to go well.&quot; — Robert C. Martin</p>

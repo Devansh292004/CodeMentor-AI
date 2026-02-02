@@ -3,6 +3,8 @@ import { persist } from 'zustand/middleware';
 import { UserProgress } from '../types';
 
 interface AppState extends UserProgress {
+  showLevelUp: boolean;
+  dismissLevelUp: () => void;
   addXP: (amount: number) => void;
   completeLesson: (lessonId: string, mistakes: number, timeSpent: number) => void;
   updateStreak: () => void;
@@ -18,6 +20,7 @@ export const useStore = create<AppState>()(
       streak: 0,
       lastActive: new Date().toISOString(),
       level: 1,
+      showLevelUp: false,
       topicMastery: {},
       weakTopics: [],
       adaptiveMetrics: {
@@ -25,10 +28,18 @@ export const useStore = create<AppState>()(
         timeSpentPerLesson: {},
       },
 
+      dismissLevelUp: () => set({ showLevelUp: false }),
+
       addXP: (amount) => {
+        const oldLevel = get().level;
         const newXP = get().xp + amount;
         const newLevel = Math.floor(newXP / 1000) + 1;
-        set({ xp: newXP, level: newLevel });
+
+        set({
+          xp: newXP,
+          level: newLevel,
+          showLevelUp: newLevel > oldLevel
+        });
         get().syncWithBackend();
       },
 

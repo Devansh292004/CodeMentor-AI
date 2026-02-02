@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react"
 import { Lesson } from "@/types"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { Button, Card, ProgressBar, XPParticle } from "@/components/ui"
 import { useStore } from "@/store/useStore"
 import { cn } from "@/lib/utils"
@@ -106,21 +106,18 @@ export const LessonEngine = ({ lesson }: { lesson: Lesson }) => {
         <span className="text-xs font-bold text-gray-400">{step + 1}/3</span>
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={step}
-          initial={{ x: 20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: -20, opacity: 0 }}
-          className="flex flex-col gap-6"
-        >
+      <div className="flex flex-col gap-6">
           {step === 0 && (
-            <Card className="flex flex-col gap-4 min-h-[60vh]">
-              <div className="flex items-center gap-2 text-indigo-600">
+            <Card className="flex flex-col gap-4 min-h-[60vh] bg-white text-lv-brown">
+              <div className="flex items-center gap-2 text-lv-gold">
                 <Brain size={20} />
-                <h2 className="text-lg font-bold">Theory: {lesson.title}</h2>
+                <h2 className="text-lg font-black uppercase tracking-widest">Theory: {lesson.title}</h2>
               </div>
-              <p className="text-gray-700 leading-relaxed text-lg">{lesson.content}</p>
+              <div className="space-y-6 mt-4">
+                {lesson.content.split('\n').map((para, i) => (
+                  <p key={i} className="text-lv-brown/80 leading-relaxed text-lg font-medium">{para}</p>
+                ))}
+              </div>
               {lesson.codeSnippet && (
                 <div className="mt-4 rounded-2xl bg-slate-900 p-6 font-mono text-sm text-indigo-300 shadow-2xl">
                   <pre>{lesson.codeSnippet}</pre>
@@ -250,8 +247,7 @@ export const LessonEngine = ({ lesson }: { lesson: Lesson }) => {
               </motion.div>
             </div>
           )}
-        </motion.div>
-      </AnimatePresence>
+      </div>
 
       <div className="flex gap-4">
         <Button

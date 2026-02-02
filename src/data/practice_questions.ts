@@ -69,12 +69,61 @@ export const practiceQuestions: PracticeQuestion[] = [
     ],
     correctIndex: 2,
     explanation: "Overfitting happens when a model learns noise in the training data as if it were a signal."
+  },
+  {
+    id: "pq-7",
+    topic: "Architecture",
+    type: "multiple-choice",
+    question: "What does SRP stand for in SOLID principles?",
+    options: ["System Reset Protocol", "Single Responsibility Principle", "Standard Routing Process", "Secure Remote Port"],
+    correctIndex: 1,
+    explanation: "SRP stands for Single Responsibility Principle."
+  },
+  {
+    id: "pq-8",
+    topic: "Operating Systems",
+    type: "multiple-choice",
+    question: "What is a deadlock?",
+    options: [
+      "A process that is finished",
+      "A situation where two processes wait for each other to release resources",
+      "A fast way to access memory",
+      "A security breach"
+    ],
+    correctIndex: 1,
+    explanation: "Deadlock is a circular wait condition where no progress can be made."
+  },
+  {
+    id: "pq-9",
+    topic: "DSA",
+    type: "coding",
+    question: "Implement a function to check if a number is even.",
+    initialCode: "def is_even(n):\n    # your code\n    pass",
+    solution: "return n % 2 == 0",
+    explanation: "The modulo operator (%) returns the remainder of division."
+  },
+  {
+    id: "pq-10",
+    topic: "Web",
+    type: "multiple-choice",
+    question: "Which HTTP method is typically used to create a new resource?",
+    options: ["GET", "POST", "PUT", "DELETE"],
+    correctIndex: 1,
+    explanation: "POST is used to create new resources on the server."
+  },
+  {
+    id: "pq-11",
+    topic: "Cloud",
+    type: "multiple-choice",
+    question: "What is the main advantage of containerization over VMs?",
+    options: ["Higher security", "Smaller size and shared kernel", "Easier to backup", "Direct hardware access"],
+    correctIndex: 1,
+    explanation: "Containers share the host kernel, making them lightweight and fast."
   }
-  // ... adding more to reach 30+ in the actual implementation phase
 ];
 
 // Dynamically generate more to reach the 30 count requirement for the hackathon feel
-for (let i = 7; i <= 30; i++) {
+for (let i = 12; i <= 30; i++) {
   practiceQuestions.push({
     id: `pq-${i}`,
     topic: "General CS",
